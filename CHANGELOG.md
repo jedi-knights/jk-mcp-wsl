@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0 (2026-08-05)
+
+### Features
+
+- initial Women's Super League MCP server scaffold (d00f639)
+
+### Bug Fixes
+
+- rename remaining bare 'mls' references to package name (524d764)
+
 ## 0.1.0 (Unreleased)
 
 Initial scaffold, adapted from `jk-mcp-usls` by retargeting the ESPN league slug
