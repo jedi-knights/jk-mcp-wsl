@@ -5,6 +5,16 @@ on:
     workflows: [CI]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'deploy-only skips release/version-bump and deploys current main; full-release replays the full pipeline'
+        required: true
+        default: deploy-only
+        type: choice
+        options:
+          - deploy-only
+          - full-release
 
 concurrency:
   group: release
@@ -17,7 +27,10 @@ permissions:
 
 jobs:
   release:
-    if: github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success'
+    # Run on: (a) successful CI push, or (b) manual workflow_dispatch.
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -27,16 +40,20 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Configure git identity
+        if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full-release'
         run: |
           git config user.name  "semantic-release-bot"
           git config user.email "semantic-release-bot@users.noreply.github.com"
 
       - name: Run semantic release
+        if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full-release'
         uses: jedi-knights/go-semantic-release@v0.10.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
+        id: release
+        if: github.event_name != 'workflow_dispatch' || inputs.mode == 'full-release'
         run: |
           # go-semantic-release may partially complete (tag pushed, publish failed).
           # Scan all tags and create GitHub Releases for any that are missing one.
@@ -49,55 +66,51 @@ jobs:
               LATEST_TAG="${TAG}"
             fi
           done
+          # `released` gates version sync, tags, and (in workflow_run mode) deploy on
+          # an actual new release this run. VERSION is committed to the repo, so a
+          # file-existence check would always pass and redeploy on every main push.
           if [ -n "${LATEST_TAG}" ]; then
             echo "${LATEST_TAG#v}" > VERSION
             echo "VERSION set to ${LATEST_TAG#v}"
-          elif [ ! -f VERSION ]; then
-            echo "No new tags without releases — nothing to do."
+            echo "released=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No new release this run — skipping version sync, tagging, and deploy."
+            echo "released=false" >> "$GITHUB_OUTPUT"
           fi
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - uses: astral-sh/setup-uv@v8.1.0
+        if: steps.release.outputs.released == 'true'
 
       - name: Update version files
+        if: steps.release.outputs.released == 'true'
         run: |
-          if [ -f VERSION ]; then
-            NEW_VERSION=$(cat VERSION)
-            sed -i "s/^version = \".*\"/version = \"${NEW_VERSION}\"/" pyproject.toml
-            uv lock
-          fi
+          NEW_VERSION=$(cat VERSION)
+          sed -i "s/^version = \".*\"/version = \"${NEW_VERSION}\"/" pyproject.toml
+          uv lock
 
       - name: Commit generated files
+        if: steps.release.outputs.released == 'true'
         run: |
-          if [ ! -f VERSION ]; then
-            echo "No new version released — nothing to commit."
-            exit 0
-          fi
           git add VERSION pyproject.toml uv.lock
           if [ -f CHANGELOG.md ]; then git add CHANGELOG.md; fi
           git diff --cached --quiet || git commit -m "chore(release): update version files [skip ci]"
           git push origin HEAD:main
 
       - name: Update floating major-version tag
+        if: steps.release.outputs.released == 'true'
         run: |
-          if [ ! -f VERSION ]; then
-            echo "No new version released — skipping floating tag update."
-            exit 0
-          fi
           MAJOR="v$(cut -d. -f1 VERSION)"
           git tag -fa "${MAJOR}" -m "Release ${MAJOR} (floating)"
           git push origin "${MAJOR}" --force
 
       - name: Install flyctl
+        if: steps.release.outputs.released == 'true' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy-only')
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to Fly.io
-        run: |
-          if [ ! -f VERSION ]; then
-            echo "No new version released — skipping deployment."
-            exit 0
-          fi
-          flyctl deploy --remote-only
+        if: steps.release.outputs.released == 'true' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'deploy-only')
+        run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
