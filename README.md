@@ -4,7 +4,7 @@ MCP server that gives Claude live access to Women's Super League (England) data 
 
 [![CI](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/ci.yml/badge.svg)](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/ci.yml)
 [![Badge](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/badge.yml/badge.svg)](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/badge.yml)
-[![Coverage](https://img.shields.io/badge/Coverage-0%25-lightgrey)](https://jedi-knights.github.io/jk-mcp-wsl/)
+[![Coverage](https://img.shields.io/badge/Coverage-93.5%25-brightgreen)](https://jedi-knights.github.io/jk-mcp-wsl/)
 [![Evals](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/evals.yml/badge.svg)](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/evals.yml)
 [![Release](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/release.yml/badge.svg)](https://github.com/jedi-knights/jk-mcp-wsl/actions/workflows/release.yml)
 [![Python](https://img.shields.io/badge/python-3.13-blue)](https://www.python.org/downloads/)
