@@ -1,0 +1,21 @@
+services:
+  # stdio mode (default) — used for local development testing and Claude Desktop.
+  # Run: docker compose run --rm jk-mcp-wsl
+  # For Claude Desktop, use the `docker run -i --rm` command in the README instead.
+  jk-mcp-wsl:
+    build: .
+    image: jk-mcp-wsl:latest
+    stdin_open: true   # keep stdin open (equivalent to docker run -i)
+    tty: false         # no TTY — MCP communicates via binary stdio
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - MCP_TRANSPORT=${MCP_TRANSPORT:-stdio}
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-8000}
+      - API_HOST=${API_HOST:-https://site.api.espn.com}
+    # Uncomment ports when running in HTTP transport mode (MCP_TRANSPORT=streamable-http):
+    # ports:
+    #   - "${PORT:-8000}:${PORT:-8000}"
+    # Mount source for live reload during local development (optional):
+    # volumes:
+    #   - ./src:/app/src

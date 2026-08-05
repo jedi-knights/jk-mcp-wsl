@@ -1,0 +1,14 @@
+name: team_lookup
+description: |
+  User asks "Tell me about Arsenal."
+  The agent should look up teams to find the right id, then fetch the
+  team detail. Two-step sequence verifies the agent threads the id from
+  one tool into the next.
+tool_sequence:
+  - tool: get_teams
+  - tool: get_team
+    args:
+      team_id: "19973"
+expected_contains:
+  - "Arsenal"
+  - "ARS"

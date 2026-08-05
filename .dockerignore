@@ -1,0 +1,56 @@
+# flyctl launch added from .gitignore
+# Python
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Virtual environment
+**/.venv
+**/venv
+**/env
+
+# Coverage
+**/.coverage
+**/htmlcov
+**/coverage.xml
+**/coverage.json
+
+# Distribution
+**/dist
+**/build
+**/*.egg-info
+
+# Editors
+**/.idea
+**/.vscode
+**/*.swp
+**/*.swo
+
+# OS
+**/.DS_Store
+
+# Logs
+**/*.log
+
+# Local environment variables — never commit secrets
+**/.env
+
+# Task tracking — local only
+**/TODO.md
+
+# Allure test results
+**/allure-results
+**/allure-report
+
+# flyctl launch added from .pytest_cache/.gitignore
+# Created by pytest automatically.
+.pytest_cache/**/*
+
+# flyctl launch added from .ruff_cache/.gitignore
+# Automatically created by ruff.
+.ruff_cache/**/*
+
+# flyctl launch added from .venv/.gitignore
+.venv/**/*
+fly.toml

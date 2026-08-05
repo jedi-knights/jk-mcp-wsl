@@ -1,0 +1,11 @@
+name: standings_basic
+description: |
+  User asks "What are the current Women's Super League standings?"
+  The agent should call get_standings and present the league table.
+tool_sequence:
+  - tool: get_standings
+expected_contains:
+  - "ARS"
+  - "45"
+expected_judge:
+  - "The output presents a soccer-league standings table with at least one team and its point total."
