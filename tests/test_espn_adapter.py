@@ -12,7 +12,7 @@ from pytest_mock import MockerFixture
 
 from wsl.adapters.outbound.espn_adapter import ESPNAdapter
 from wsl.adapters.outbound.parsers import _parse_match, _parse_standing, _parse_team
-from wsl.domain.exceptions import WSLNotFoundError, UpstreamAPIError
+from wsl.domain.exceptions import UpstreamAPIError, WSLNotFoundError
 
 # ---------------------------------------------------------------------------
 # Fixtures

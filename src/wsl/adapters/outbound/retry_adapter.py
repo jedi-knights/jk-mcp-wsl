@@ -12,7 +12,7 @@ import asyncio
 import logging
 from collections.abc import Callable
 
-from ...domain.exceptions import WSLNotFoundError, UpstreamAPIError
+from ...domain.exceptions import UpstreamAPIError, WSLNotFoundError
 from ...domain.models import Match, MatchDetails, NewsArticle, Player, Standing, Team
 from ...ports.outbound import WSLAPIPort
 

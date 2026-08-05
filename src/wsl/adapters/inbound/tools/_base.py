@@ -13,7 +13,7 @@ from collections.abc import Awaitable, Callable
 
 from mcp.types import ToolAnnotations
 
-from ....domain.exceptions import WSLNotFoundError, UpstreamAPIError
+from ....domain.exceptions import UpstreamAPIError, WSLNotFoundError
 from ....ports.inbound import AuthorizationRequest, Authorizer
 
 logger = logging.getLogger(__name__)

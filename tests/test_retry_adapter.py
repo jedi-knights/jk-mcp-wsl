@@ -9,7 +9,7 @@ import pytest
 from pytest_mock import MockerFixture
 
 from wsl.adapters.outbound.retry_adapter import RetryingAdapter
-from wsl.domain.exceptions import WSLNotFoundError, UpstreamAPIError
+from wsl.domain.exceptions import UpstreamAPIError, WSLNotFoundError
 from wsl.domain.models import Team
 from wsl.ports.outbound import WSLAPIPort
 

@@ -43,12 +43,12 @@ from mcp.client.session import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 from mcp.shared.memory import create_connected_server_and_client_session
 
-from wsl.adapters.inbound.mcp_adapter import create_mcp_server
-from wsl.application.service import WSLService
 from tests.evals import load_scenarios, run_scenario
 from tests.evals.conftest import _StubRepo
 from tests.evals.judge import judge_from_env
 from tests.evals.scenario_loader import Scenario
+from wsl.adapters.inbound.mcp_adapter import create_mcp_server
+from wsl.application.service import WSLService
 
 _REMOTE_URL = os.environ.get("MCP_EVAL_REMOTE_URL") or None
 _BEARER_TOKEN = os.environ.get("MCP_EVAL_BEARER_TOKEN") or None
