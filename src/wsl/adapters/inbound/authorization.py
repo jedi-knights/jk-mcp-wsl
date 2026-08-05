@@ -9,7 +9,7 @@ Two implementations:
   ``authorization-policy-service`` per the architecture roadmap.
 
 The factory :func:`build_authorizer` reads the environment and chooses
-between them so the composition root (:mod:`mls.server`) doesn't have
+between them so the composition root (:mod:`wsl.server`) doesn't have
 to branch on config.
 """
 
@@ -160,7 +160,7 @@ def build_authorizer() -> Authorizer:
 
 
 def _env_flag(name: str, default: bool = False) -> bool:
-    """Boolean env-var parser shared with :mod:`mls.security`."""
+    """Boolean env-var parser shared with :mod:`wsl.security`."""
     value = os.environ.get(name, "").strip().lower()
     if not value:
         return default

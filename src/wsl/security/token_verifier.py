@@ -135,7 +135,7 @@ def build_token_verifier() -> JWKSTokenVerifier | None:
     """Build the verifier from environment variables.
 
     Returns ``None`` when ``MCP_AUTH_ENABLED`` is unset or false — the
-    caller in :mod:`mls.server` interprets that as "skip the auth
+    caller in :mod:`wsl.server` interprets that as "skip the auth
     middleware entirely" and leaves the streamable-http transport
     open. Defaulting to off keeps the local-dev flow unchanged.
 

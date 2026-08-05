@@ -84,7 +84,7 @@ def create_mcp_server(
             ``None`` return into a 401 response.
     """
     mcp = FastMCP(
-        "mls",
+        "wsl",
         host=host,
         port=port,
         stateless_http=True,

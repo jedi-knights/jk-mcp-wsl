@@ -3,9 +3,9 @@
 `_safe_call` translates domain exceptions raised by the application service
 into readable error strings the LLM can present. `_READ_ANNOTATIONS` flags
 tools as read-only / idempotent so MCP clients can reason about them.
-`_authorize_tool` consults the wired :class:`mls.ports.inbound.Authorizer`
+`_authorize_tool` consults the wired :class:`wsl.ports.inbound.Authorizer`
 before any tool dispatch — wired by the composition root in
-:mod:`mls.server` per the architecture roadmap's authorization port.
+:mod:`wsl.server` per the architecture roadmap's authorization port.
 """
 
 import logging
@@ -184,7 +184,7 @@ async def _authorize_tool(authorizer: Authorizer, tool_name: str) -> str | None:
 
     The caller's identity comes from the streamable-http transport's
     AccessToken (set by the :class:`JWKSTokenVerifier` from
-    :mod:`mls.security`). The token's scopes carry the ADR-0015
+    :mod:`wsl.security`). The token's scopes carry the ADR-0015
     ``actor_type``, ``agent_id``, and ``sub`` claims as
     ``actor_type:<value>`` etc. — we parse them back into the
     AuthorizationRequest here so the application layer doesn't see

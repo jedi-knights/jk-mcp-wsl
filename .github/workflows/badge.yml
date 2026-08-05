@@ -27,7 +27,7 @@ jobs:
 
       - run: uv sync --frozen
 
-      - run: uv run pytest --cov=src/mls --cov-report=html --cov-report=xml
+      - run: uv run pytest --cov=src/wsl --cov-report=html --cov-report=xml
 
       - name: Update coverage badge
         uses: jedi-knights/coverage-badge@v0

@@ -60,11 +60,11 @@ def lint(ctx: Context, fix: bool = False) -> None:
 def check_complexity(ctx: Context, max_complexity: int = MAX_COMPLEXITY) -> None:
     """Check cyclomatic complexity of the source code — fail if above MAX_COMPLEXITY.
 
-    Only checks src/mls, not tests/. Test files are excluded because
+    Only checks src/wsl, not tests/. Test files are excluded because
     setup/teardown logic in fixtures routinely exceeds the threshold without
     representing real application complexity.
     """
-    ctx.run(f"uv run cyclo -m {max_complexity} src/mls")
+    ctx.run(f"uv run cyclo -m {max_complexity} src/wsl")
 
 
 @task(
@@ -94,7 +94,7 @@ def test(ctx: Context, k: str | None = None, v: bool = False, x: bool = False) -
 def coverage(ctx: Context, report: str = "term-missing") -> None:
     """Run the pytest suite with coverage — fail if below COVERAGE_THRESHOLD."""
     result = ctx.run(
-        f"uv run pytest --cov=src/mls --cov-report={report} --cov-report=xml --cov-fail-under={COVERAGE_THRESHOLD}",
+        f"uv run pytest --cov=src/wsl --cov-report={report} --cov-report=xml --cov-fail-under={COVERAGE_THRESHOLD}",
         warn=True,
     )
     if result and result.exited != 0:

@@ -6,7 +6,7 @@ transport when bearer-token authentication is enabled.
 
 The stdio transport runs as a subprocess of its client; the trust
 boundary is the process boundary itself, so the verifier is never wired
-in that mode (see :mod:`mls.server`).
+in that mode (see :mod:`wsl.server`).
 """
 
 from .token_verifier import JWKSTokenVerifier, build_token_verifier

@@ -2,7 +2,7 @@
 
 Mirrors the auth-server / login-ui pattern from identity-platform-go.
 ``setup_tracing`` is the single entry point — called once at startup
-from :mod:`mls.server` before any tool dispatch — and is intentionally
+from :mod:`wsl.server` before any tool dispatch — and is intentionally
 a no-op when ``MCP_TRACING_ENABLED`` is unset or false. That keeps the
 SDK out of the import graph for the stdio transport's tight-loop tests
 and lets a single env-var flip turn observability on at deploy time
